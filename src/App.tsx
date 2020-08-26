@@ -3,9 +3,6 @@ import "./App.css";
 import ImageSequenceAnimator from "./image-sequence-animator";
 
 function App() {
-  const [progress, setProgress] = React.useState(0);
-  console.log("progress:", progress);
-
   return (
     <div>
       <div className="stickyParent">
