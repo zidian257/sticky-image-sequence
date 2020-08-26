@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import "./App.css";
+import ImageSequenceAnimator from "./image-sequence-animator";
 
 function App() {
+  const [progress, setProgress] = React.useState(0);
+  console.log("progress:", progress);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="stickyParent">
+        <div className="sticky">
+          <ImageSequenceAnimator
+            containerSelector={`.sticky`}
+            framePaddingEnd={0}
+            framePaddingStart={0}
+            imgWidth={1902}
+            imgHeight={1080}
+            stickyContainerSelector={`.stickyParent`}
+            concatReverse
+            // onProgress={setProgress}
+          />
+        </div>
+      </div>
     </div>
   );
 }
