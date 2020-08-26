@@ -2,7 +2,7 @@ import * as React from "react";
 
 let imageList: string[] = [];
 
-for (let i = 0; i < 401; i++) {
+for (let i = 300; i < 401; i++) {
   imageList.push(
     process.env.PUBLIC_URL + `/assets/REAL_${i.toString().padStart(4, "0")}.jpg`
   );
