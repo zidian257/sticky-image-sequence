@@ -2,6 +2,14 @@ import * as React from "react";
 import "./App.css";
 import ImageSequenceAnimator from "./image-sequence-animator";
 
+let imageList: string[] = [];
+
+for (let i = 0; i < 201; i++) {
+  imageList.push(
+      process.env.PUBLIC_URL + `/assets/REAL_${i.toString().padStart(4, "0")}.jpg`
+  );
+}
+
 function App() {
   return (
     <div>
@@ -15,7 +23,7 @@ function App() {
             imgHeight={1080}
             stickyContainerSelector={`.stickyParent`}
             concatReverse
-            // onProgress={setProgress}
+            imgUrlList={imageList}
           />
         </div>
       </div>

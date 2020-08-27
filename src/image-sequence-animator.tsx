@@ -1,13 +1,5 @@
 import * as React from "react";
 
-let imageList: string[] = [];
-
-for (let i = 0; i < 201; i++) {
-  imageList.push(
-    process.env.PUBLIC_URL + `/assets/REAL_${i.toString().padStart(4, "0")}.jpg`
-  );
-}
-
 interface IImageSequenceAnimatorProps {
   /** image width of pixels in number */
   imgWidth: number;
@@ -18,7 +10,7 @@ interface IImageSequenceAnimatorProps {
   /** query selector to sticky container that can be used to calculate distance to top*/
   stickyContainerSelector: string;
   /** image sequence url list */
-  imgUrlList?: string[];
+  imgUrlList: string[];
   /** padding start of frame in sticky container */
   framePaddingStart: number;
   /** padding end of frame in sticky container */
@@ -236,13 +228,11 @@ const usePreload = (
 
   React.useEffect(() => {
     if (props.onProgress) {
-
     }
 
-    // @ts-ignore
     const promises = imgUrlList.map(loadImagePromise);
     Promise.all(promises)
-      .then(images => {
+      .then((images) => {
         state.current.isAllLoaded = true;
         state.current.imageSequence = images;
         if (props.concatReverse) {
@@ -250,17 +240,16 @@ const usePreload = (
         }
         state.current.forceRefresh();
       })
-      .catch(e => {
+      .catch((e) => {
         console.warn(e);
         state.current.isAllLoaded = false;
       });
   }, [canvasRef, props, state]);
 };
 
-const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = ({
-  imgUrlList = imageList,
-  ...rest
-}) => {
+const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = (
+  props
+) => {
   const [loaded, toggle] = React.useState<boolean>(false);
   const forceRefresh = React.useCallback(() => {
     toggle(true);
@@ -274,10 +263,8 @@ const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = ({
     containerHeight: 0,
     imageSequence: [],
     animationDistance: 0,
-    forceRefresh
+    forceRefresh,
   });
-
-  const props = { imgUrlList, ...rest };
 
   usePreload(props, canvasRef, stateRef);
   useUpdateState(props, canvasRef, stateRef);
@@ -289,8 +276,7 @@ const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = ({
       style={{
         width: "100%",
         height: "100%",
-        zIndex: 998,
-        background: `${loaded ? "black" : "gray"}`
+        background: `${loaded ? "black" : "gray"}`,
       }}
     />
   );
