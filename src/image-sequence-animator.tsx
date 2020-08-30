@@ -54,7 +54,6 @@ const useUpdateState = (
   state: React.MutableRefObject<IAnimationState>
 ) => {
   React.useEffect(() => {
-    console.log("effect called");
     const resizeHandler = () => {
       if (!canvasRef.current) {
         console.error("canvas not ready");
@@ -141,7 +140,6 @@ function drawImageSequence(
   let scrollOffset = (document.querySelector(
     props.containerSelector
   ) as HTMLElement).offsetTop;
-  console.log("scrollOffset:", scrollOffset);
 
   if (scrollOffset <= props.framePaddingStart) scrollOffset = 0;
 
@@ -158,11 +156,13 @@ function drawImageSequence(
   const containerRatio = containerWidth / containerHeight;
   const imgRatio = imgWidth / imgHeight;
   if (imgRatio > containerRatio) {
+    // stretch width to fit container height
     dWidth = (containerHeight / imgHeight) * imgWidth;
     dHeight = containerHeight;
     dx = (containerWidth - dWidth) / 2;
     dy = 0;
   } else {
+    // stretch height to fit container width
     dWidth = containerWidth;
     dHeight = (containerWidth / imgWidth) * imgHeight;
     dx = 0;
@@ -232,7 +232,7 @@ const usePreload = (
 
     const promises = imgUrlList.map(loadImagePromise);
     Promise.all(promises)
-      .then((images) => {
+      .then(images => {
         state.current.isAllLoaded = true;
         state.current.imageSequence = images;
         if (props.concatReverse) {
@@ -240,16 +240,14 @@ const usePreload = (
         }
         state.current.forceRefresh();
       })
-      .catch((e) => {
+      .catch(e => {
         console.warn(e);
         state.current.isAllLoaded = false;
       });
   }, [canvasRef, props, state]);
 };
 
-const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = (
-  props
-) => {
+const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = props => {
   const [loaded, toggle] = React.useState<boolean>(false);
   const forceRefresh = React.useCallback(() => {
     toggle(true);
@@ -263,7 +261,7 @@ const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = (
     containerHeight: 0,
     imageSequence: [],
     animationDistance: 0,
-    forceRefresh,
+    forceRefresh
   });
 
   usePreload(props, canvasRef, stateRef);
@@ -276,7 +274,7 @@ const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = (
       style={{
         width: "100%",
         height: "100%",
-        background: `${loaded ? "black" : "gray"}`,
+        background: `${loaded ? "black" : "gray"}`
       }}
     />
   );

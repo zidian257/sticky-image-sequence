@@ -4,7 +4,7 @@ import ImageSequenceAnimator from "./image-sequence-animator";
 
 let imageList: string[] = [];
 
-for (let i = 0; i < 201; i++) {
+for (let i = 100; i < 201; i++) {
   imageList.push(
       process.env.PUBLIC_URL + `/assets/REAL_${i.toString().padStart(4, "0")}.jpg`
   );
