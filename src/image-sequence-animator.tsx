@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 interface IImageSequenceAnimatorProps {
   /** image width of pixels in number */
@@ -47,16 +47,18 @@ interface IAnimationState {
  * @param props
  * @param canvasRef
  * @param state
+ * @param dep
  */
 const useUpdateState = (
   props: IImageSequenceAnimatorProps,
   canvasRef: React.RefObject<HTMLCanvasElement>,
-  state: React.MutableRefObject<IAnimationState>
+  state: React.MutableRefObject<IAnimationState>,
+  dep: any
 ) => {
   React.useEffect(() => {
     const resizeHandler = () => {
       if (!canvasRef.current) {
-        console.error("canvas not ready");
+        console.error('canvas not ready');
         return;
       }
 
@@ -66,7 +68,7 @@ const useUpdateState = (
 
       if (!stickyContainerDOM) {
         console.error(
-          "check stickyContainerSelector prop: ",
+          'check stickyContainerSelector prop: ',
           props.stickyContainerSelector
         );
         return;
@@ -90,7 +92,7 @@ const useUpdateState = (
 
       if (canvasRef.current) {
         state.current.ctx = canvasRef.current.getContext(
-          "2d"
+          '2d'
         ) as CanvasRenderingContext2D;
         state.current.ctx.scale(dpr, dpr);
       }
@@ -99,11 +101,11 @@ const useUpdateState = (
     };
 
     resizeHandler();
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener('resize', resizeHandler);
     return () => {
-      window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener('resize', resizeHandler);
     };
-  }, [canvasRef, props, state]);
+  }, [canvasRef, props, state, dep]);
 };
 
 /**
@@ -118,11 +120,11 @@ function drawImageSequence(
   state: React.MutableRefObject<IAnimationState>
 ) {
   if (!canvasRef.current) {
-    console.error("canvas not ready");
+    console.error('canvas not ready');
     return;
   }
   if (!state.current.isAllLoaded) {
-    console.warn("all are not loaded");
+    console.warn('all are not loaded');
     return;
   }
   const containerHeight = state.current.containerHeight;
@@ -189,10 +191,10 @@ const useUpdateCanvas = (
       drawImageSequence(props, canvasRef, state);
     };
 
-    window.addEventListener("scroll", scrollHandler);
+    window.addEventListener('scroll', scrollHandler);
 
     return () => {
-      window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener('scroll', scrollHandler);
     };
   }, [canvasRef, props, state]);
 };
@@ -244,7 +246,7 @@ const usePreload = (
         console.warn(e);
         state.current.isAllLoaded = false;
       });
-  }, [canvasRef, props, state]);
+  }, [canvasRef, imgUrlList, props, state]);
 };
 
 const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = props => {
@@ -264,17 +266,21 @@ const ImageSequenceAnimator: React.FC<IImageSequenceAnimatorProps> = props => {
     forceRefresh
   });
 
+  // hacky way to let useUpdateState know that
+  // loaded state has changed
+  const callback = React.useMemo(() => ({}), [loaded]);
+
   usePreload(props, canvasRef, stateRef);
-  useUpdateState(props, canvasRef, stateRef);
+  useUpdateState(props, canvasRef, stateRef, callback);
   useUpdateCanvas(props, canvasRef, stateRef);
 
   return (
     <canvas
       ref={canvasRef}
       style={{
-        width: "100%",
-        height: "100%",
-        background: `${loaded ? "black" : "gray"}`
+        width: '100%',
+        height: '100%',
+        background: `${loaded ? 'black' : 'gray'}`
       }}
     />
   );

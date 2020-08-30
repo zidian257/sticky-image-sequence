@@ -1,6 +1,5 @@
 .scene {
   height: 100vh;
-  /*background: black;*/
 }
 
 .stickyParent {
@@ -14,9 +13,3 @@
   width: 100%;
   height: 100vh;
 }
-
-/*.forthplay {*/
-/*  background-position: center;*/
-/*  background-size: cover;*/
-/*  background-image: url(./nyc_0000.jpg);*/
-/*}*/
