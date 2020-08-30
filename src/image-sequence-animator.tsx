@@ -204,7 +204,7 @@ const useUpdateOffscreenCanvases = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   state: React.MutableRefObject<IAnimationState>
 ) => {
-  // todo
+  // todo maybe do an offscreen canvas draw to enhance the process
 };
 
 function loadImagePromise(url: string): Promise<HTMLImageElement> {
@@ -223,9 +223,8 @@ const usePreload = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   state: React.MutableRefObject<IAnimationState>
 ) => {
-  // todo
-  // preload image sequence as blob
-  // save it to IndexedDB
+  // preload images
+  // and then force the state change and draw
   const { imgUrlList } = props;
 
   React.useEffect(() => {
