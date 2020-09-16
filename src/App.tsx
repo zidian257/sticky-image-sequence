@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import ImageSequenceAnimator from './image-sequence-animator';
+import TimeLine from './timeline';
 
 let imageList: string[] = [];
 
@@ -13,6 +14,7 @@ for (let i = 100; i < 201; i++) {
 function App() {
   return (
     <div>
+      <TimeLine inView/>
       <div className="stickyParent">
         <div className="sticky">
           <ImageSequenceAnimator
