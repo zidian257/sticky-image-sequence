@@ -14,7 +14,6 @@ for (let i = 100; i < 201; i++) {
 function App() {
   return (
     <div>
-      <TimeLine inView/>
       <div className="stickyParent">
         <div className="sticky">
           <ImageSequenceAnimator
