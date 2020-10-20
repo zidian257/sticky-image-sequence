@@ -22,7 +22,7 @@ function App() {
             framePaddingStart={0}
             imgWidth={1902}
             imgHeight={1080}
-            stickyContainerSelector={`.stickyParent`}
+            sceneSelector={`.stickyParent`}
             concatReverse
             imgUrlList={imageList}
           />

@@ -7,8 +7,10 @@ interface IImageSequenceAnimatorProps {
   imgHeight: number;
   /** query selector to canvas container */
   containerSelector: string;
-  /** query selector to sticky container that can be used to calculate distance to top*/
-  stickyContainerSelector: string;
+  /** query selector to scene element that can be used to calculate distance to top,
+   *  usually it's parent of the sticky element
+   * */
+  sceneSelector: string;
   /** image sequence url list */
   imgUrlList: string[];
   /** padding start of frame in sticky container */
@@ -62,15 +64,10 @@ const useUpdateState = (
         return;
       }
 
-      const stickyContainerDOM = document.querySelector(
-        props.stickyContainerSelector
-      );
+      const stickyContainerDOM = document.querySelector(props.sceneSelector);
 
       if (!stickyContainerDOM) {
-        console.error(
-          'check stickyContainerSelector prop: ',
-          props.stickyContainerSelector
-        );
+        console.error('check sceneSelector prop: ', props.sceneSelector);
         return;
       }
 
